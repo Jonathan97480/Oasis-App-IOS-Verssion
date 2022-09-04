@@ -11,7 +11,10 @@ export default function Player() {
     return (
         <View style={styles.container}>
             <WebView
-
+                bounces={false}
+                setDisplayZoomControls={false}
+                setSupportZoom={false}
+                scrollEnabled={false}
                 originWhitelist={['*']}
                 source={{
                     html: `<!DOCTYPE html>
@@ -164,7 +167,7 @@ export default function Player() {
 const styles=StyleSheet.create({
 
     WebView: {
-        height: 100,
+        height: ' 40%',
 
     },
     container: {

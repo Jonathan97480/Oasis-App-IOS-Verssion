@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, Pressable, Button, Modal, BackHandler, SafeAreaView } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView, Pressable, Modal, BackHandler, SafeAreaView } from 'react-native';
 import Btn from '../components/btn';
-import WebView from 'react-native-webview';
 import Header from '../components/header';
 import Player from '../components/player';
+import ReplayWebView from '../components/replayWebView';
 import NetInfo from '@react-native-community/netinfo';
 
 
@@ -48,67 +48,64 @@ export default function Home() {
       <SafeAreaView style={styles.container}>
         <Header />
         <Text style={styles.title}>ÉCOUTER NOUS EN LIVE</Text>
-
-
         <Player />
-
-
         <Text style={styles.title}>REPLAY</Text>
+        <View style={{ height: '52%', width: '100%' }}>
+          <ScrollView contentContainerStyle={styles.scroll}  >
+            <View style={styles.scrollContent}  >
 
-        <ScrollView contentContainerStyle={styles.scroll}>
-          <View style={styles.scrollContent}  >
+              <Pressable onPress={() => {
+                gotoReplay('https://soundcloud.com/froasis/sets/parlez-moi-de-vous')
+              }} style={styles.picPressable}  >
+                <Image style={styles.pic} source={require('../assets/img/Pmv.jpg')} accessibilityLabel="parlez moi de vous" resizeMode='cover' />
 
-            <Pressable onPress={() => {
-              gotoReplay('https://soundcloud.com/froasis/sets/parlez-moi-de-vous')
-            }} style={styles.picPressable}  >
-              <Image style={styles.pic} source={require('../assets/img/Pmv.png')} accessibilityLabel="parlez moi de vous" />
+              </Pressable>
 
-            </Pressable>
+              <Pressable onPress={() => {
+                gotoReplay('https://soundcloud.com/froasis/sets/coeur-a-coeur-avec-leglise')
+              }} style={styles.picPressable}>
+                <Image style={styles.pic} source={require('../assets/img/couer.jpg')} accessibilityLabel="couer a couer" />
+              </Pressable>
+            </View>
+            <View style={styles.scrollContent} >
+              <Pressable onPress={() => {
+                gotoReplay('https://soundcloud.com/froasis/sets/tresor-du-ciel')
+              }} style={styles.picPressable}>
+                <Image style={styles.pic} source={require('../assets/img/tresor.jpg')} accessibilityLabel="tresor di ciel" />
+              </Pressable>
+              <Pressable onPress={() => {
+                gotoReplay('https://soundcloud.com/froasis/sets/decouverte-dartiste')
+              }} style={styles.picPressable}>
+                <Image style={styles.pic} source={require('../assets/img/Artistes.jpg')} accessibilityLabel="Découverte artistes" />
 
-            <Pressable onPress={() => {
-              gotoReplay('https://soundcloud.com/froasis/sets/coeur-a-coeur-avec-leglise')
-            }} style={styles.picPressable}>
-              <Image style={styles.pic} source={require('../assets/img/couer.png')} accessibilityLabel="couer a couer" />
-            </Pressable>
-          </View>
-          <View style={styles.scrollContent} >
-            <Pressable onPress={() => {
-              gotoReplay('https://soundcloud.com/froasis/sets/tresor-du-ciel')
-            }} style={styles.picPressable}>
-              <Image style={styles.pic} source={require('../assets/img/tresor.png')} accessibilityLabel="tresor di ciel" />
-            </Pressable>
-            <Pressable onPress={() => {
-              gotoReplay('https://soundcloud.com/froasis/sets/decouverte-dartiste')
-            }} style={styles.picPressable}>
-              <Image style={styles.pic} source={require('../assets/img/Artistes.png')} accessibilityLabel="Découverte artistes" />
-
-            </Pressable>
-          </View>
+              </Pressable>
+            </View>
 
 
 
-          <View style={styles.scrollContent} >
-            <Pressable onPress={() => {
-              gotoReplay('https://soundcloud.com/froasis/sets/kozserieux')
-            }} style={styles.picPressable}>
-              <Image style={styles.pic} source={require('../assets/img/koz.png')} accessibilityLabel="Allon kozé" />
-            </Pressable>
-            <Pressable onPress={() => {
-              gotoReplay('https://soundcloud.com/froasis/sets/sak-y-fo-savoir-casud')
-            }} style={styles.picPressable}>
-              <Image style={styles.pic} source={require('../assets/img/casud.png')} accessibilityLabel="casud Réunion" />
-            </Pressable>
-          </View>
-          <View style={styles.btnContent}>
-            {<Btn
-              title={'Voir plus de replay'}
-              action={() => {
-                gotoReplay('https://soundcloud.com/froasis/sets')
-              }}
-            />}
+            <View style={styles.scrollContent} >
+              <Pressable onPress={() => {
+                gotoReplay('https://soundcloud.com/froasis/sets/kozserieux')
+              }} style={styles.picPressable}>
+                <Image style={styles.pic} source={require('../assets/img/koz.jpg')} accessibilityLabel="Allon kozé" />
+              </Pressable>
+              <Pressable onPress={() => {
+                gotoReplay('https://soundcloud.com/froasis/sets/sak-y-fo-savoir-casud')
+              }} style={styles.picPressable}>
+                <Image style={styles.pic} source={require('../assets/img/casud.jpg')} accessibilityLabel="casud Réunion" />
+              </Pressable>
+            </View>
+            <View style={styles.btnContent}>
+              {<Btn
+                title={'Voir plus de replay'}
+                action={() => {
+                  gotoReplay('https://soundcloud.com/froasis/sets')
+                }}
+              />}
 
-          </View>
-        </ScrollView>
+            </View>
+          </ScrollView>
+        </View>
 
       </SafeAreaView>
     );
@@ -151,47 +148,19 @@ export default function Home() {
   if (curentScrenn==='WebView') {
 
     return (
-      <>
-        <Header />
-        <Btn action={() => {
+      <ReplayWebView url={replayUrl} close={
+        () => {
           setCurentScreeen('Home')
-        }}
-          title={'Back'}
-        />
-
-        <WebView
-
-          source={{ uri: replayUrl }}
-
-          injectedJavaScript={
-            `
-                document.querySelector('header').style.display='none';  
-                document.body.style.backgroundColor = '#1D1D1B';
-                document.body.style.color='white';
-                document.querySelectorAll('nav').forEach((e)=>{
-                      e.style.display='none';
-                });
-                document.querySelector('footer').style.display='none';
-              `
-          }
-
-
-        />
-      </>
+        }
+      } />
     )
   }
 }
 
 const styles=StyleSheet.create({
   container: {
-
     alignItems: 'center',
     backgroundColor: "#1D1D1B",
-    margin: 0,
-    padding: 0,
-
-    /*    minHeight: "100%",
-       maxHeight: "100%" */
 
   },
   title: {
@@ -203,33 +172,37 @@ const styles=StyleSheet.create({
     color: 'white',
     marginBottom: 20
   }, scroll: {
-    width: '100%',
-    paddingBottom: 380,
+
+
+    /* paddingBottom: 380, */
 
 
   }, scrollContent: {
+
     flexDirection: 'row',
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center'
+    flexWrap: 'nowrap',
+    justifyContent: 'space-evenly',
+
+    paddingHorizontal: 10,
 
   }, btnContent: {
-    marginBottom: 30
-  }, picPressable: {
-    alignItems: 'center',
+    marginVertical: 20,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
 
-    width: "40%"
-  }, pic: {
-
-    width: "100%",
-    marginHorizontal: 20,
-    marginVertical: 10
-
-  }, centeredView: {
+  },
+  pic: {
+    width: 180,
+    height: 150,
+    margin: 10,
+  },
+  centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
+
   },
   modalView: {
     margin: 20,
@@ -250,6 +223,7 @@ const styles=StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+
   },
   buttonOpen: {
     backgroundColor: '#F194FF',

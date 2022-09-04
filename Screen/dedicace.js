@@ -74,47 +74,54 @@ export default function Dedicace() {
         <View style={styles.cont2}>
           {sendStatus=='standby'&&
             <ScrollView >
-              <TextInput
-                style={styles.input}
-                value={fullname}
-                onChangeText={setFullname}
-                label="Votre nom et prénom"
-                accessibilityLabel="Votre nom complet"
-              />
-              <TextInput style={styles.textArea}
-                underlineColorAndroid="transparent"
-                placeholderTextColor="grey"
-                label="Votre dédicace"
-                multiline={true}
-                numberOfLines={10}
-                value={dedicace}
-                onChangeText={setDedicace}
-                accessibilityLabel="Votre dédicace"
+              <View>
+                <TextInput
+                  style={styles.input}
+                  value={fullname}
+                  onChangeText={setFullname}
+                  label="Votre nom et prénom"
+                  accessibilityLabel="Votre nom complet"
+                />
+                <TextInput style={styles.textArea}
+                  underlineColorAndroid="transparent"
+                  placeholderTextColor="grey"
+                  label="Votre dédicace"
+                  multiline={true}
+                  numberOfLines={10}
+                  value={dedicace}
+                  onChangeText={setDedicace}
+                  accessibilityLabel="Votre dédicace"
 
-              />
-              <Btn
-                title={'Envoyer Votre Dédicace'}
-                action={
-                  () => {
-                    postDedicace();
-                  }
-                }
-              />
+                />
+                <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'center', marginTop: 20 }}>
+                  <Btn
+                    title={'Envoyer Votre Dédicace'}
+                    action={
+                      () => {
+                        postDedicace();
+                      }
+                    }
+                  />
+                </View>
 
-
+              </View>
             </ScrollView>
           }
         </View>
 
-        {sendStatus=='send'&&<View>
-          <Text style={styles.title} >Votre dédicace a été envoyée</Text>
-        </View>}
+        {
+          sendStatus=='send'&&<View>
+            <Text style={styles.title} >Votre dédicace a été envoyée</Text>
+          </View>
+        }
 
-        {sendStatus=="error"&&<View>
-          <Text style={styles.title} >
-            Votre dédicace n'a pas pu être envoyée veuillez réessayer plus tard
-          </Text>
-        </View>}
+        {
+          sendStatus=="error"&&<View>
+            <Text style={styles.title} >
+              Votre dédicace n'a pas pu être envoyée veuillez réessayer plus tard
+            </Text>
+          </View>
+        }
 
       </SafeAreaView>
 

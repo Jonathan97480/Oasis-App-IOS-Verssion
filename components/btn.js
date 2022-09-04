@@ -24,10 +24,11 @@ export default function Btn({ action, title, iconName, width }) {
 const styles=StyleSheet.create({
 
     btnContent: {
+        flex: 1,
         backgroundColor: '#FCD918',
         alignItems: 'center',
         justifyContent: 'center',
-        maxWidth: "100%",
+        maxWidth: "90%",
         height: 48,
         borderRadius: 5,
         elevation: 10,
