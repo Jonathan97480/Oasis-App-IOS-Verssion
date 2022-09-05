@@ -93,6 +93,7 @@ export default function Player() {
         }
     </style>
     <div class="lecteur">
+        
         <span class="live no-live" id="status-id">
             Live
         </span>
@@ -113,7 +114,7 @@ export default function Player() {
     var audioSource=new Audio();
     audioSource.setAttribute('type', "audio/mpeg");
     audioSource.setAttribute('preload', "none");
-
+    
     const statusLive = document.getElementById('status-id');
     const loading = document.getElementById('loading-id');
 
@@ -121,6 +122,7 @@ export default function Player() {
 
         if (playerIcon.getAttribute('data-playing')=="false") {
             audioSource.setAttribute('src', "http://frequenceoasis.ice.infomaniak.ch/frequenceoasis-128.mp3?_=1");
+   
             audioSource.load();
             loading.className = "loading";
             playerIcon.innerHTML='';

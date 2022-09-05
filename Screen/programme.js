@@ -8,12 +8,12 @@ import Header from '../components/header';
 export default function Programme() {
 
   const [dates, setDates]=useState([])
-  const [isload, setIsload]=useState(true);
-  const [iserror, setIserror]=useState(false);
+  const [isLoad, setIsLoad]=useState(true);
+  const [isError, setIsError]=useState(false);
   useEffect(() => {
     getData().then((data) => {
 
-      setIsload(false)
+      setIsLoad(false)
       setDates(data);
 
     })
@@ -35,7 +35,7 @@ export default function Programme() {
     return (
       <View style={styles.header} accessibilityLabel={section.day}>
         <Text style={styles.headerText}>{section.day}</Text>
-        <View style={{ marginLeft: '50%' }}>
+        <View >
           <FontAwesome5 name="caret-square-down" size={24} color="white" />
         </View>
 
@@ -79,17 +79,18 @@ export default function Programme() {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
+      <View style={styles.header} >
+        <Text style={styles.headerText}>PROGRAMME DISPONIBLE POUR LA SEMAINE</Text>
+      </View>
       <TouchableOpacity >
-        <View style={styles.header}>
-          <Text style={styles.headerText}>PROGRAMME DE LA SEMAINE</Text>
-        </View>
-        {isload? < ActivityIndicator size={50} color='yellow' />:null}
+
+        {isLoad? < ActivityIndicator size={50} color='yellow' />:null}
 
       </TouchableOpacity>
 
-      <View style={{ height: "65%" }} >
+      <View style={{ height: "65%", }} >
         < ScrollView >
-          {!iserror&&<Accordion
+          {!isError&&<Accordion
 
             sections={dates}
             touchableComponent={TouchableOpacity}
@@ -105,7 +106,7 @@ export default function Programme() {
         </ScrollView>
       </View>
 
-      {iserror&&<Text style={styles.headerText}>Le programme n'est pas disponible pour le moment veuillez réessayer plus tard </Text>}
+      {isError&&<Text style={styles.headerText}>Le programme n'est pas disponible pour le moment veuillez réessayer plus tard </Text>}
 
 
     </ SafeAreaView>
@@ -126,7 +127,7 @@ async function getData() {
 
       if (responseJson!==null&&responseJson.length>0) {
         let data=responseJson;
-        let resutl=[
+        let result=[
           { day: 'lundi', data: [] },
           { day: 'mardi', data: [] },
           { day: 'mercredi', data: [] },
@@ -136,12 +137,12 @@ async function getData() {
           { day: 'dimanche', data: [] },
         ];
 
-        data.map((programmme) => {
+        data.map((programme) => {
 
-          resutl.map((day) => {
-            if (day.day===programmme.le_jour_de_lemission_) {
+          result.map((day) => {
+            if (day.day===programme.le_jour_de_lemission_) {
 
-              day.data.push(programmme);
+              day.data.push(programme);
             }
 
           });
@@ -149,9 +150,12 @@ async function getData() {
         });
 
         /* range par hordre croisant de l'heure de difusion */
-        resutl.map((programmme) => {
+        const GrilleProgramme=[];
+        result.map((programme) => {
 
-          programmme.data.sort((a, b) => {
+
+
+          programme.data.sort((a, b) => {
             if (a.heures_de_debut_<b.heures_de_debut_) {
               return -1;
             }
@@ -161,16 +165,20 @@ async function getData() {
             return 0;
           });
 
+          if (programme.data.length>0) {
+            GrilleProgramme.push(programme);
+          }
+
         })
 
-        return resutl;
+        return GrilleProgramme;
 
       }
 
     }).catch((error) => {
       //Error 
 
-      setIserror(true);
+      setIsError(true);
     });
 
 }
@@ -189,7 +197,7 @@ const styles=StyleSheet.create({
     alignItems: 'center'
 
   }, header: {
-    display: 'flex',
+
     flexDirection: 'row',
     width: "100%",
     alignItems: 'center',
@@ -200,10 +208,10 @@ const styles=StyleSheet.create({
   }, headerText: {
     fontSize: 20,
     lineHeight: 20,
-    textAlign: 'center',
+    textAlign: 'left',
     fontFamily: 'Yanone Kaffeesatz',
     color: 'white',
-    width: 100
+    width: '70%',
 
   }, cardContent: {
     display: 'flex',

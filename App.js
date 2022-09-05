@@ -1,12 +1,12 @@
 
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AppLoading from 'expo-app-loading';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import Info from './Screen/info';
-
+import ConnexionIndicator from './components/connexionIndicator';
 
 
 /* Importation des différents écrans de l'application */
@@ -15,6 +15,7 @@ import Dedicace from './Screen/dedicace.js';
 import Programme from './Screen/programme.js';
 import Donation from './Screen/donation.js';
 import { useFonts } from 'expo-font';
+import { View } from 'react-native-web';
 
 
 
@@ -30,23 +31,17 @@ export default function App() {
   })
 
 
-
-
-
-
-
-
   if (!fontsLoaded) {
     return <AppLoading />
   }
-
-
-
 
   return (
 
 
     <NavigationContainer >
+
+      <ConnexionIndicator isConnected={true} />
+
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {

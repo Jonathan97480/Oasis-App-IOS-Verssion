@@ -1,52 +1,33 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, Pressable, Modal, BackHandler, SafeAreaView } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView, Pressable, SafeAreaView } from 'react-native';
 import Btn from '../components/btn';
 import Header from '../components/header';
 import Player from '../components/player';
 import ReplayWebView from '../components/replayWebView';
-import NetInfo from '@react-native-community/netinfo';
+import ConnexionIndicator from '../components/connexionIndicator';
+
 
 
 export default function Home() {
 
   const [curentScrenn, setCurentScreeen]=useState('Home');
-  const [isConnected, setIsConnected]=useState(false);
-  const [modalVisible, setModalVisible]=useState(false);
   const [replayUrl, setReplayUrl]=useState('');
-
-
-  const getConnexion=() => {
-
-    NetInfo.addEventListener(state => {
-      setIsConnected(state.isConnected);
-
-      return isConnected;
-    })
-
-
-
-  }
 
   const gotoReplay=(url) => {
 
     setReplayUrl(url)
     setCurentScreeen('WebView')
-
-
   }
 
 
 
-  const closeApp=() => {
-    BackHandler.exitApp();
-  }
-
-  if (curentScrenn==='Home'&&isConnected) {
+  if (curentScrenn==='Home') {
 
     return (
 
       <SafeAreaView style={styles.container}>
         <Header />
+
         <Text style={styles.title}>ÉCOUTER NOUS EN LIVE</Text>
         <Player />
         <Text style={styles.title}>REPLAY</Text>
@@ -111,40 +92,6 @@ export default function Home() {
     );
   }
 
-
-  if (!isConnected) {
-
-    getConnexion()
-
-    return (
-      <View>
-
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-
-            setModalVisible(!modalVisible);
-            closeApp();
-          }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Une connexion Internet est nécessaire pour le bon fonctionnement veuillez la relancer l'application après avoir activé votre connexion.</Text>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => closeApp}>
-                <Text style={styles.textStyle}>D'accord j ai compris</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-      </View>
-    )
-
-  }
-
-
   if (curentScrenn==='WebView') {
 
     return (
@@ -187,6 +134,7 @@ const styles=StyleSheet.create({
 
   }, btnContent: {
     marginVertical: 20,
+    marginBottom: 70,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -197,48 +145,7 @@ const styles=StyleSheet.create({
     height: 150,
     margin: 10,
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
 
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
 
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
 
 });
