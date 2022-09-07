@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Image, TouchableOpacity, ActivityIndicator, Scr
 import Accordion from 'react-native-collapsible/Accordion';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Header from '../components/header';
-
+import { StatusBar } from 'expo-status-bar';
 
 export default function Programme() {
 
@@ -79,6 +79,7 @@ export default function Programme() {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
+      <StatusBar style='light' />
       <View style={styles.header} >
         <Text style={styles.headerText}>PROGRAMME DISPONIBLE POUR LA SEMAINE</Text>
       </View>
@@ -209,7 +210,7 @@ const styles=StyleSheet.create({
     fontSize: 20,
     lineHeight: 20,
     textAlign: 'left',
-    fontFamily: 'Yanone Kaffeesatz',
+    fontFamily: 'sfProMedium',
     color: 'white',
     width: '70%',
 
@@ -228,7 +229,7 @@ const styles=StyleSheet.create({
     fontSize: 18,
     lineHeight: 20,
     textAlign: 'center',
-    fontFamily: 'Yanone Kaffeesatz',
+    fontFamily: 'sfProMedium',
     color: 'white',
     paddingHorizontal: 10,
     maxWidth: '50%'

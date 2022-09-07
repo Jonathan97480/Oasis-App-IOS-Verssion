@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, ActivityIndicator, ScrollView, SafeAreaView } f
 import { TextInput } from 'react-native-paper';
 import Header from '../components/header';
 import Btn from '../components/btn';
+import { StatusBar } from 'expo-status-bar';
 
 export default function Dedicace() {
 
@@ -68,6 +69,7 @@ export default function Dedicace() {
     return (
       <SafeAreaView style={styles.container}>
         <Header />
+        <StatusBar style='light' />
         <Text style={styles.title}>PASSER UNE DÉDICACE</Text>
 
         {isEmptyFields&&<Text style={styles.error}>Tous les champs doivent être remplis</Text>}
@@ -132,6 +134,7 @@ export default function Dedicace() {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
+      <StatusBar style='light' />
       <Text style={styles.title}>PASSER UNE DÉDICACE</Text>
       <ActivityIndicator size={50} color={"yellow"} />
     </SafeAreaView>

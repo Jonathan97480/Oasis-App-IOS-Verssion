@@ -28,7 +28,7 @@ const styles=StyleSheet.create({
         backgroundColor: '#FCD918',
         alignItems: 'center',
         justifyContent: 'center',
-        maxWidth: "90%",
+        maxWidth: 500,
         height: 48,
         borderRadius: 5,
         elevation: 10,

@@ -1,21 +1,37 @@
 
-import React, { useState } from 'react'
-import { Text, View, StyleSheet, ImageBackground, ActivityIndicator } from 'react-native';
+import React, { useEffect } from 'react'
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import WebView from 'react-native-webview';
 
 
 
 
-export default function Player() {
+export default function Player({ refresh }) {
 
+    const [key, setKey]=React.useState(0)
+    useEffect(() => {
+        setKey(key+1)
+    }, [refresh])
+
+    let webviewRef;
     return (
+
         <View style={styles.container}>
             <WebView
+                key={key}
                 bounces={false}
                 setDisplayZoomControls={false}
                 setSupportZoom={false}
                 scrollEnabled={false}
                 originWhitelist={['*']}
+                startInLoadingState={true}
+                renderError={(errorName) => <Text style={{ color: '"fff' }} >{errorName} error</Text>}
+
+
+                renderLoading={() => <View style={{ backgroundColor: '#1D1D1B', position: 'absolute', height: '100%', width: '100%', top: 0, left: 0, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    < ActivityIndicator size={'large'} color='yellow' />
+                </View>}
+
                 source={{
                     html: `<!DOCTYPE html>
 
@@ -40,10 +56,14 @@ export default function Player() {
 <body style="width:100vw;margin:0;padding:0;">
 
     <style>
+
         #play i {
             position: absolute;
             left: 45%;
-            top: 30%;
+            top: 35%;
+        }
+        #loading-id i{
+            color: white;
         }
         .live{
             display: flex;
@@ -71,8 +91,10 @@ export default function Player() {
         .loading{
             position: absolute;
             left: 45%;
-            top: 30%;
+            top: 35%;
+           
         }
+      
         .loading-no{
             display:none!important;
         }
@@ -93,14 +115,14 @@ export default function Player() {
         }
     </style>
     <div class="lecteur">
-        
+       
         <span class="live no-live" id="status-id">
             Live
         </span>
         <span class="loading-no" id="loading-id">
             <i class="fas fa-spinner fa-spin fa-3x"></i>
         </span>
-        <span data-playing="false" role="switch" aria-checked="false" id="play">
+        <span class="control-icon" data-playing="false" role="switch" aria-checked="false" id="play">
             <i style="color:White;" class="fa-solid fa-play fa-4x"></i>  
         </span>
 
@@ -114,7 +136,7 @@ export default function Player() {
     var audioSource=new Audio();
     audioSource.setAttribute('type', "audio/mpeg");
     audioSource.setAttribute('preload', "none");
-    
+    audioSource.innerHTML ='<img src="https://rss.com/blog/wp-content/uploads/2021/03/video-podcasting-1024x683.jpg" alt="logo" style="width: 250px; height: 250px; margin: auto; margin-top: 20px;">';
     const statusLive = document.getElementById('status-id');
     const loading = document.getElementById('loading-id');
 
@@ -175,8 +197,8 @@ const styles=StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'center',
-        width: '80%',
-        height: "20%",
+        padding: 8,
+        height: '30%',
         marginBottom: "5%",
         alignContent: 'center',
         backgroundColor: '#000000',

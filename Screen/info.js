@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Pressable, ScrollView, SafeAreaView } from 'rea
 import Header from '../components/header';
 import Communications from 'react-native-communications'
 import { FontAwesome5 } from '@expo/vector-icons';
-
+import { StatusBar } from 'expo-status-bar';
 
 
 export default function Info() {
@@ -13,6 +13,7 @@ export default function Info() {
     return (
         <SafeAreaView style={styles.container}>
             <Header />
+            <StatusBar style='light' />
             <Text style={styles.title}>INFORMATIONS</Text>
             <ScrollView contentContainerStyle={styles.infoContent}>
 

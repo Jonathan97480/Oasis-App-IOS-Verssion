@@ -2,12 +2,15 @@ import * as React from 'react';
 import { View, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
 import WebView from 'react-native-webview';
 import Header from '../components/header';
+import { StatusBar } from 'expo-status-bar';
+
 export default function Replay() {
 
   return (
 
     <SafeAreaView style={styles.SafeAreaView}>
       <Header />
+      <StatusBar style='light' />
       <View style={{ flex: 1 }}>
         <WebView
           bounces={false}

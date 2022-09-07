@@ -1,50 +1,65 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, Pressable, ActivityIndicator, Modal, BackHandler, SafeAreaView } from 'react-native';
-import Btn from '../components/btn';
+import React, { useEffect, useState } from 'react';
+import { Text, View, StyleSheet, Pressable, ActivityIndicator, Modal, SafeAreaView } from 'react-native';
+
 import WebView from 'react-native-webview';
-import Header from '../components/header';
-import Player from '../components/player';
-import NetInfo from '@react-native-community/netinfo';
-import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+
+
 
 const ReplayWebView=({ url, close }) => {
+
+    const [curentUrl, setCurentUrl]=useState('');
+
+    useEffect(() => {
+        setCurentUrl(url)
+    }, [url]);
+
+
+
     return (
-        <SafeAreaView style={{
-            backgroundColor: "#1D1D1B",
-            minHeight: "100%",
-            width: '100%',
-        }}>
-            <Header />
-            <View style={{ width: '100%', height: 60 }}>
-                <Pressable
-                    style={styles.btnContent}
-                    onPress={() => {
-                        close()
-                    }}
-                >
-                    <FontAwesome5 name="chevron-left" size={24} color="black" />
-                    <Text style={styles.btnText} >
+        <Modal
+            animationType="slide"
+            transparent={false}
+            visible={curentUrl!==''}
 
-                        Retourner au live</Text>
-                </Pressable>
-            </View>
 
-            <View style={{ flex: 1 }}>
-                <WebView
-                    bounces={false}
-                    onMessage={(event) => {
-                        console.log(event.nativeEvent.data)
-                    }}
-                    source={{ uri: url }}
-                    renderError={(errorName) => <Text style={{ color: '"fff' }} >{errorName} error</Text>}
-                    renderLoading={() => <View style={{ backgroundColor: '#1D1D1B', position: 'absolute', height: '100%', width: '100%', top: 0, left: 0, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                        < ActivityIndicator size={'large'} color='yellow' />
-                    </View>}
-                    startInLoadingState={true}
-                    mixedContentMode="always"
+        >
+            <SafeAreaView style={{
+                backgroundColor: "#1D1D1B",
+                minHeight: "100%",
+                width: '100%',
+            }}>
 
-                    injectedJavaScript={
-                        `
+                <View style={{ width: '100%', height: 60 }}>
+                    <Pressable
+                        style={styles.btnContent}
+                        onPress={() => {
+                            close()
+                        }}
+                    >
+                        <FontAwesome5 name="chevron-left" size={24} color="black" />
+                        <Text style={styles.btnText} >
+
+                            Retourner au live</Text>
+                    </Pressable>
+                </View>
+
+                <View style={{ flex: 1 }}>
+                    <WebView
+                        bounces={false}
+                        onMessage={(event) => {
+                            console.info(event.nativeEvent.data)
+                        }}
+                        source={{ uri: curentUrl }}
+                        renderError={(errorName) => <Text style={{ color: '"fff' }} >{errorName} error</Text>}
+                        renderLoading={() => <View style={{ backgroundColor: '#1D1D1B', position: 'absolute', height: '100%', width: '100%', top: 0, left: 0, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            < ActivityIndicator size={'large'} color='yellow' />
+                        </View>}
+                        startInLoadingState={true}
+                        mixedContentMode="always"
+
+                        injectedJavaScript={
+                            `
                    document.querySelector('header').style.display='none';  
                    document.body.style.backgroundColor = '#1D1D1B';
                    document.body.style.color='white';
@@ -53,13 +68,13 @@ const ReplayWebView=({ url, close }) => {
                    });
                    document.querySelector('footer').style.display='none';
                  `
-                    }
+                        }
 
 
-                />
-            </View>
-
-        </SafeAreaView>
+                    />
+                </View>
+            </SafeAreaView>
+        </Modal>
     )
 }
 

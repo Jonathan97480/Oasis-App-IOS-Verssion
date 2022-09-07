@@ -36,7 +36,7 @@ const styles=StyleSheet.create({
         lineHeight: 24,
         color: 'white',
         textAlign: 'center',
-        fontFamily: 'Yanone Kaffeesatz',
+        fontFamily: 'sfProMedium',
 
     },
     logo: {

@@ -8,14 +8,13 @@ import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import Info from './Screen/info';
 import ConnexionIndicator from './components/connexionIndicator';
 
-
 /* Importation des différents écrans de l'application */
 import Home from './Screen/home.js';
 import Dedicace from './Screen/dedicace.js';
 import Programme from './Screen/programme.js';
 import Donation from './Screen/donation.js';
 import { useFonts } from 'expo-font';
-import { View } from 'react-native-web';
+
 
 
 
@@ -26,7 +25,10 @@ export default function App() {
 
   const [fontsLoaded, error]=useFonts({
 
-    'Yanone Kaffeesatz': require('./assets/fonts/Yanone-Kaffeesatz.ttf')
+    'sfProBold': require('./assets/fonts/sfr-pro-bold.otf'),
+    'sfProMedium': require('./assets/fonts/SFPRODISPLAYMEDIUM.otf'),
+    'sfProRegular': require('./assets/fonts/SFPRODISPLAYREGULAR.otf'),
+    'Yanone Kaffeesatz': require('./assets/fonts/Yanone-Kaffeesatz.ttf'),
 
   })
 
@@ -111,13 +113,7 @@ export default function App() {
 
 
       >
-        <Tab.Screen name="Live Radio" component={Home}
-          options={{
-
-
-
-
-          }} />
+        <Tab.Screen name="Live Radio" component={Home} />
         <Tab.Screen name="Programme" component={Programme} />
         <Tab.Screen name="Dédicace" component={Dedicace} />
         <Tab.Screen name="Donation" component={Donation} />

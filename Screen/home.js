@@ -1,112 +1,127 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, Pressable, SafeAreaView } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import Btn from '../components/btn';
 import Header from '../components/header';
 import Player from '../components/player';
 import ReplayWebView from '../components/replayWebView';
-import ConnexionIndicator from '../components/connexionIndicator';
+import { StatusBar } from 'expo-status-bar';
+import ReplayCard from '../components/replayCard';
+
+
 
 
 
 export default function Home() {
 
-  const [curentScrenn, setCurentScreeen]=useState('Home');
+
   const [replayUrl, setReplayUrl]=useState('');
 
   const gotoReplay=(url) => {
 
     setReplayUrl(url)
-    setCurentScreeen('WebView')
+    setRefreshPLayer(!refreshPLayer)
+
   }
 
-
-
-  if (curentScrenn==='Home') {
-
-    return (
-
-      <SafeAreaView style={styles.container}>
-        <Header />
-
-        <Text style={styles.title}>ÉCOUTER NOUS EN LIVE</Text>
-        <Player />
-        <Text style={styles.title}>REPLAY</Text>
-        <View style={{ height: '52%', width: '100%' }}>
-          <ScrollView contentContainerStyle={styles.scroll}  >
-            <View style={styles.scrollContent}  >
-
-              <Pressable onPress={() => {
-                gotoReplay('https://soundcloud.com/froasis/sets/parlez-moi-de-vous')
-              }} style={styles.picPressable}  >
-                <Image style={styles.pic} source={require('../assets/img/Pmv.jpg')} accessibilityLabel="parlez moi de vous" resizeMode='cover' />
-
-              </Pressable>
-
-              <Pressable onPress={() => {
-                gotoReplay('https://soundcloud.com/froasis/sets/coeur-a-coeur-avec-leglise')
-              }} style={styles.picPressable}>
-                <Image style={styles.pic} source={require('../assets/img/couer.jpg')} accessibilityLabel="couer a couer" />
-              </Pressable>
-            </View>
-            <View style={styles.scrollContent} >
-              <Pressable onPress={() => {
-                gotoReplay('https://soundcloud.com/froasis/sets/tresor-du-ciel')
-              }} style={styles.picPressable}>
-                <Image style={styles.pic} source={require('../assets/img/tresor.jpg')} accessibilityLabel="tresor di ciel" />
-              </Pressable>
-              <Pressable onPress={() => {
-                gotoReplay('https://soundcloud.com/froasis/sets/decouverte-dartiste')
-              }} style={styles.picPressable}>
-                <Image style={styles.pic} source={require('../assets/img/Artistes.jpg')} accessibilityLabel="Découverte artistes" />
-
-              </Pressable>
-            </View>
+  const [refreshPLayer, setRefreshPLayer]=useState(false);
 
 
 
-            <View style={styles.scrollContent} >
-              <Pressable onPress={() => {
-                gotoReplay('https://soundcloud.com/froasis/sets/kozserieux')
-              }} style={styles.picPressable}>
-                <Image style={styles.pic} source={require('../assets/img/koz.jpg')} accessibilityLabel="Allon kozé" />
-              </Pressable>
-              <Pressable onPress={() => {
-                gotoReplay('https://soundcloud.com/froasis/sets/sak-y-fo-savoir-casud')
-              }} style={styles.picPressable}>
-                <Image style={styles.pic} source={require('../assets/img/casud.jpg')} accessibilityLabel="casud Réunion" />
-              </Pressable>
-            </View>
-            <View style={styles.btnContent}>
-              {<Btn
-                title={'Voir plus de replay'}
-                action={() => {
-                  gotoReplay('https://soundcloud.com/froasis/sets')
-                }}
-              />}
+  const closeReplay=() => {
 
-            </View>
-          </ScrollView>
+    setReplayUrl('')
+  }
+
+  return (
+
+    <SafeAreaView
+      style={styles.SafeAreaView}
+    >
+      <StatusBar style='light' />
+
+      <Header />
+      <Text style={styles.title}>ÉCOUTER NOUS EN LIVE</Text>
+      <Player refresh={refreshPLayer} />
+      <Text style={styles.title}>REPLAY</Text>
+      <ScrollView   >
+
+        <ReplayCard
+          replay={[
+            {
+              url: 'https://soundcloud.com/froasis/sets/parlez-moi-de-vous',
+              img: {
+                picUrl: require('../assets/img/Pmv.jpg'),
+                accessibilityLabel: 'parlez moi de vous'
+              }
+            },
+            {
+              url: 'https://soundcloud.com/froasis/sets/coeur-a-coeur-avec-leglise',
+              img: {
+                picUrl: require('../assets/img/couer.jpg'),
+                accessibilityLabel: 'couer a couer'
+              }
+            },
+            {
+              url: 'https://soundcloud.com/froasis/sets/tresor-du-ciel',
+              img: {
+                picUrl: require('../assets/img/tresor.jpg'),
+                accessibilityLabel: 'tresor di ciel'
+              }
+            },
+            {
+              url: 'https://soundcloud.com/froasis/sets/decouverte-dartiste',
+              img: {
+                picUrl: require('../assets/img/Artistes.jpg'),
+                accessibilityLabel: 'Découverte artistes'
+              }
+            },
+            {
+              url: 'https://soundcloud.com/froasis/sets/kozserieux',
+              img: {
+                picUrl: require('../assets/img/koz.jpg'),
+                accessibilityLabel: 'Allon kozé'
+              }
+            },
+            {
+              url: 'https://soundcloud.com/froasis/sets/sak-y-fo-savoir-casud',
+              img: {
+                picUrl: require('../assets/img/casud.jpg'),
+                accessibilityLabel: 'casud Réunion'
+              }
+            },
+          ]}
+          gotoReplay={gotoReplay}
+        />
+
+
+
+
+        <View style={styles.btnContent}>
+
+          <Btn
+            title={'Voir plus de replay'}
+            action={() => {
+              gotoReplay('https://soundcloud.com/froasis/sets')
+            }}
+          />
+
         </View>
-
-      </SafeAreaView>
-    );
-  }
-
-  if (curentScrenn==='WebView') {
-
-    return (
+      </ScrollView>
       <ReplayWebView url={replayUrl} close={
-        () => {
-          setCurentScreeen('Home')
-        }
+        closeReplay
+
       } />
-    )
-  }
+
+    </SafeAreaView>
+  );
 }
 
+
+
+
 const styles=StyleSheet.create({
-  container: {
-    alignItems: 'center',
+  SafeAreaView: {
+    flex: 1,
     backgroundColor: "#1D1D1B",
 
   },
@@ -115,37 +130,19 @@ const styles=StyleSheet.create({
     fontSize: 24,
     lineHeight: 24,
     textAlign: 'center',
-    fontFamily: 'Yanone Kaffeesatz',
+    fontFamily: 'sfProMedium',
     color: 'white',
-    marginBottom: 20
-  }, scroll: {
+    marginBottom: 20,
 
-
-    /* paddingBottom: 380, */
-
-
-  }, scrollContent: {
-
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    justifyContent: 'space-evenly',
-
-    paddingHorizontal: 10,
-
-  }, btnContent: {
+  },
+  btnContent: {
     marginVertical: 20,
     marginBottom: 70,
     width: '100%',
+
     flexDirection: 'row',
     justifyContent: 'center',
 
   },
-  pic: {
-    width: 180,
-    height: 150,
-    margin: 10,
-  },
-
-
 
 });
