@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "frequence-oasis",
-    "slug": "frequence-oasis",
-    "version": "1.0.0",
+    "name": "Frequence oasis",
+    "slug": "frequenceOasis",
+    "version": "1.0.9",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,7 +18,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jon.dev.frequenceOasis",
+      "buildNumber": "10"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +30,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "603762ac-2904-49cc-a4d3-cae14538a3cf"
+      }
     }
   }
 }
